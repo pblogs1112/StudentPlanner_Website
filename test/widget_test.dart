@@ -10,18 +10,36 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:final_project/main.dart';
 
 void main() {
-  testWidgets('home screen shows its title and counts taps', (tester) async {
-    // Build the app. Note we build MyApp directly, not the DevicePreview
-    // wrapper, because a test does not need the phone frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Dashboard shows its title, greeting, and today\'s classes',
+      (tester) async {
+    // Build the app. We build StudentPlannerApp directly, not a
+    // DevicePreview wrapper, because a test does not need the phone frame.
+    await tester.pumpWidget(const StudentPlannerApp());
 
-    expect(find.text('It works'), findsOneWidget);
-    expect(find.text('Taps: 0'), findsOneWidget);
+    // App header
+    expect(find.text('Student Planner'), findsOneWidget);
+    expect(find.text('"Stay organized. Stay focused. Stay ahead."'),
+        findsOneWidget);
 
-    // Tap the button, then let the widget rebuild.
-    await tester.tap(find.byType(FilledButton));
-    await tester.pump();
+    // Greeting
+    expect(find.text('Welcome back,'), findsOneWidget);
+    expect(find.text('Student !'), findsOneWidget);
 
-    expect(find.text('Taps: 1'), findsOneWidget);
+    // One of today's sample classes should be visible
+    expect(find.text('Discrete Mathematics'), findsOneWidget);
+
+    // One of the sample upcoming tasks, still Pending
+    expect(find.text('Packet Tracer Lab 3'), findsOneWidget);
+    expect(find.text('Pending'), findsWidgets);
+  });
+
+  testWidgets('Bottom nav bar shows all five icons', (tester) async {
+    await tester.pumpWidget(const StudentPlannerApp());
+
+    expect(find.byIcon(Icons.home_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.schedule_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.calendar_today_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.checklist_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.description_outlined), findsOneWidget);
   });
 }
