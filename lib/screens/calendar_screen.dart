@@ -118,7 +118,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         isSelected: _dateOnly(days[week * 7 + d]) ==
                             _dateOnly(_selectedDate),
                         isToday: _dateOnly(days[week * 7 + d]) == _today,
-                        eventCount: store.tasksOn(days[week * 7 + d]).length,
+                        pendingCount: store
+                            .tasksOn(days[week * 7 + d])
+                            .where((t) => !t.completed)
+                            .length,
+                        completedCount: store
+                            .tasksOn(days[week * 7 + d])
+                            .where((t) => t.completed)
+                            .length,
                         onTap: () =>
                             setState(() => _selectedDate = days[week * 7 + d]),
                       ),
@@ -182,7 +189,8 @@ class _DayCell extends StatelessWidget {
   final bool inCurrentMonth;
   final bool isSelected;
   final bool isToday;
-  final int eventCount;
+  final int pendingCount;
+  final int completedCount;
   final VoidCallback onTap;
 
   const _DayCell({
@@ -190,14 +198,25 @@ class _DayCell extends StatelessWidget {
     required this.inCurrentMonth,
     required this.isSelected,
     required this.isToday,
-    required this.eventCount,
+    required this.pendingCount,
+    required this.completedCount,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dotCount = eventCount.clamp(0, 2);
+    // Blue dot = pending task, green dot = completed task. A day with both
+    // shows one of each; otherwise up to two of the same kind.
+    final pendingColor = theme.colorScheme.primary;
+    final doneColor = theme.colorScheme.tertiary;
+    final dotColors = <Color>[
+      if (pendingCount > 0 && completedCount > 0) ...[pendingColor, doneColor]
+      else if (pendingCount > 0)
+        for (int i = 0; i < pendingCount.clamp(0, 2); i++) pendingColor
+      else
+        for (int i = 0; i < completedCount.clamp(0, 2); i++) doneColor,
+    ];
 
     return Expanded(
       child: InkWell(
@@ -236,14 +255,14 @@ class _DayCell extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    for (int i = 0; i < dotCount; i++)
+                    for (final c in dotColors)
                       Container(
-                        width: 4,
-                        height: 4,
+                        width: 5,
+                        height: 5,
                         margin: const EdgeInsets.symmetric(horizontal: 1),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: theme.colorScheme.secondary,
+                          color: c,
                         ),
                       ),
                   ],
@@ -277,7 +296,13 @@ class _EventCard extends StatelessWidget {
         color: theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(10),
         border: Border(
-          left: BorderSide(color: theme.colorScheme.secondary, width: 4),
+          left: BorderSide(
+            // Green when completed, blue when pending.
+            color: event.completed
+                ? theme.colorScheme.tertiary
+                : theme.colorScheme.primary,
+            width: 4,
+          ),
         ),
       ),
       child: Row(

@@ -21,7 +21,6 @@ Future<void> main() async {
 }
 
 class StudentPlannerApp extends StatefulWidget {
-  /// Optional: tests can pass their own store to inspect or change data.
   final PlannerStore? store;
   const StudentPlannerApp({super.key, this.store});
 

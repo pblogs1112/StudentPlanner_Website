@@ -8,8 +8,6 @@ import 'package:final_project/state/planner_store.dart';
 void main() {
   testWidgets('Dashboard shows its title, greeting, and section labels',
       (tester) async {
-    // Build the app. We build StudentPlannerApp directly, not a
-    // DevicePreview wrapper, because a test does not need the phone frame.
     await tester.pumpWidget(const StudentPlannerApp());
 
     // App header
@@ -21,8 +19,6 @@ void main() {
     expect(find.text('Welcome back,'), findsOneWidget);
     expect(find.text('Student !'), findsOneWidget);
 
-    // Section labels (today's classes depend on the real weekday, so we do
-    // not assert on a specific class here)
     expect(find.text("TODAY'S CLASSES"), findsOneWidget);
     expect(find.text('UPCOMING TASKS'), findsOneWidget);
 
@@ -34,7 +30,7 @@ void main() {
   testWidgets('Dashboard follows class changes made in the store',
       (tester) async {
     final today = DateTime.now().weekday;
-    if (today > PlannerStore.days.length) return; // Sunday: no classes to show
+    if (today > PlannerStore.days.length) return;
 
     final store = PlannerStore();
     await tester.pumpWidget(StudentPlannerApp(store: store));
@@ -77,7 +73,8 @@ void main() {
     store.addTask(PlannerTask(
       title: 'Brand New Task',
       subject: 'Web Development',
-      due: DateTime(2026, 7, 1),
+      due: DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day + 1),
       completed: false,
     ));
     await tester.pump();
@@ -91,7 +88,7 @@ void main() {
 
   test('Calendar sees tasks added or completed in the store', () {
     final store = PlannerStore();
-    final day = DateTime(2026, 8, 5);
+    final day = DateTime(2031, 8, 5);
     expect(store.tasksOn(day), isEmpty);
 
     final task = PlannerTask(
@@ -234,6 +231,77 @@ void main() {
       await store.load();
       expect(store.allTasks, isNotEmpty);
       expect(store.classesFor('Mon'), isNotEmpty);
+    });
+  });
+
+  group('Upcoming tasks and class edits', () {
+    test('Upcoming tasks skip overdue and completed tasks', () {
+      final store = PlannerStore();
+      final now = DateTime(2026, 10, 3, 15, 30);
+      PlannerTask make(String title, DateTime due, {bool done = false}) =>
+          PlannerTask(
+            title: title,
+            subject: 'Web Development',
+            due: due,
+            completed: done,
+          );
+
+      store.addTask(make('Overdue', DateTime(2026, 10, 2)));
+      store.addTask(make('Due today', DateTime(2026, 10, 3)));
+      store.addTask(make('Due later', DateTime(2026, 10, 9)));
+      store.addTask(make('Already done', DateTime(2026, 10, 5), done: true));
+
+      final titles = store.upcomingTasksFrom(now).map((t) => t.title).toList();
+      expect(titles.contains('Overdue'), isFalse);
+      expect(titles.contains('Already done'), isFalse);
+      expect(titles.contains('Due today'), isTrue);
+      expect(titles.indexOf('Due today') < titles.indexOf('Due later'), isTrue);
+    });
+
+    test('Renaming a class moves its tasks and notes to the new name', () {
+      final store = PlannerStore();
+      final old = ClassItem(subject: 'Temp Subject', time: '8:00 AM - 9:00 AM', room: 'R1');
+      store.addClass('Sat', old);
+      store.addTask(PlannerTask(
+        title: 'Temp Task',
+        subject: 'Temp Subject',
+        due: DateTime(2031, 1, 1),
+        completed: false,
+      ));
+      store.addNote(PlannerNote(
+        title: 'Temp Note',
+        subject: 'Temp Subject',
+        body: 'x',
+        updated: DateTime(2031, 1, 1),
+      ));
+
+      store.updateClass('Sat', old, 'Sat',
+          ClassItem(subject: 'Renamed Subject', time: old.time, room: old.room));
+
+      expect(store.allTasks.firstWhere((t) => t.title == 'Temp Task').subject,
+          'Renamed Subject');
+      expect(store.notes.firstWhere((n) => n.title == 'Temp Note').subject,
+          'Renamed Subject');
+    });
+
+    test('Renaming one of two same-name classes keeps tasks where they are', () {
+      final store = PlannerStore();
+      final a = ClassItem(subject: 'Shared Name', time: '8:00 AM - 9:00 AM', room: 'R1');
+      final b = ClassItem(subject: 'Shared Name', time: '10:00 AM - 11:00 AM', room: 'R2');
+      store.addClass('Sat', a);
+      store.addClass('Fri', b);
+      store.addTask(PlannerTask(
+        title: 'Shared Task',
+        subject: 'Shared Name',
+        due: DateTime(2031, 1, 1),
+        completed: false,
+      ));
+
+      store.updateClass('Sat', a, 'Sat',
+          ClassItem(subject: 'Other Name', time: a.time, room: a.room));
+
+      expect(store.allTasks.firstWhere((t) => t.title == 'Shared Task').subject,
+          'Shared Name');
     });
   });
 }

@@ -89,6 +89,11 @@ class PlannerNote {
       );
 }
 
+DateTime _fromToday(int days) {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day + days);
+}
+
 class PlannerStore extends ChangeNotifier {
   static const days = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
 
@@ -126,31 +131,31 @@ class PlannerStore extends ChangeNotifier {
     PlannerTask(
       title: 'HTML Accessibility Quiz',
       subject: 'Web Development',
-      due: DateTime(2026, 7, 2),
+      due: _fromToday(-3),
       completed: true,
     ),
     PlannerTask(
       title: 'Discrete Math Problem Set 4',
       subject: 'Discrete Mathematics',
-      due: DateTime(2026, 7, 13),
+      due: _fromToday(2),
       completed: false,
     ),
     PlannerTask(
       title: 'Packet Tracer Lab 3',
       subject: 'Computer Networking',
-      due: DateTime(2026, 7, 29),
+      due: _fromToday(5),
       completed: false,
     ),
     PlannerTask(
       title: 'SQL Normalization Quiz',
       subject: 'Database Management',
-      due: DateTime(2026, 7, 29),
+      due: _fromToday(5),
       completed: false,
     ),
     PlannerTask(
       title: 'Sprint Review',
       subject: 'Software Engineering',
-      due: DateTime(2026, 7, 30),
+      due: _fromToday(9),
       completed: false,
     ),
   ];
@@ -289,8 +294,32 @@ class PlannerStore extends ChangeNotifier {
   ) {
     _classesByDay[oldDay]?.remove(oldItem);
     _classesByDay.putIfAbsent(newDay, () => []).add(updated);
+    _renameSubjectIfGone(oldItem.subject, updated.subject);
     notifyListeners();
     _save();
+  }
+
+  /// When a class is renamed and its old name is no longer on the schedule,
+  /// move that subject's tasks and notes to the new name so they stay linked.
+  /// If another day still has a class with the old name, nothing changes.
+  void _renameSubjectIfGone(String from, String to) {
+    if (from == to || subjects.contains(from)) return;
+    for (var i = 0; i < _tasks.length; i++) {
+      if (_tasks[i].subject == from) {
+        _tasks[i] = _tasks[i].copyWith(subject: to);
+      }
+    }
+    for (var i = 0; i < _notes.length; i++) {
+      final n = _notes[i];
+      if (n.subject == from) {
+        _notes[i] = PlannerNote(
+          title: n.title,
+          subject: to,
+          body: n.body,
+          updated: n.updated,
+        );
+      }
+    }
   }
 
   void deleteClass(String day, ClassItem item) {
@@ -302,8 +331,15 @@ class PlannerStore extends ChangeNotifier {
   // ------------------------------------------------------------------ tasks
 
   /// Pending tasks, soonest due date first.
-  List<PlannerTask> get upcomingTasks {
-    final list = _tasks.where((t) => !t.completed).toList();
+  /// Pending tasks due today or later, soonest first. Overdue and
+  /// completed tasks are left out (the Task screen still lists them).
+  List<PlannerTask> get upcomingTasks => upcomingTasksFrom(DateTime.now());
+
+  List<PlannerTask> upcomingTasksFrom(DateTime now) {
+    final today = DateTime(now.year, now.month, now.day);
+    final list = _tasks
+        .where((t) => !t.completed && !t.due.isBefore(today))
+        .toList();
     list.sort((a, b) => a.due.compareTo(b.due));
     return list;
   }
