@@ -75,7 +75,7 @@ class _ClassFormDialogState extends State<ClassFormDialog> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DropdownButtonFormField<String>(
-                value: _day,
+                initialValue: _day,
                 decoration: const InputDecoration(labelText: 'Day'),
                 items: [
                   for (final d in widget.days)

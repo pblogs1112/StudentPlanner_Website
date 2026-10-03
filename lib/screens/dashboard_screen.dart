@@ -8,17 +8,13 @@ import '../widgets/task_card.dart';
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
-  // Tasks stay as sample data until the Task screen is ready.
-  static const _upcomingTasks = [
-    {'title': 'Packet Tracer Lab 3', 'subject': 'Computer Networking', 'due': 'Jul 13, 2026', 'completed': false},
-    {'title': 'SQL Normalization Quiz', 'subject': 'Database Management', 'due': 'Jul 29, 2026', 'completed': false},
-    {'title': 'Discrete Math Problem Set 4', 'subject': 'Discrete Mathematics', 'due': 'July 29, 2026', 'completed': false},
-  ];
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final classes = PlannerScope.of(context).classesToday();
+    final store = PlannerScope.of(context);
+    final classes = store.classesToday();
+    // Next three pending tasks, soonest first. Follows the Task screen.
+    final tasks = store.upcomingTasks.take(3).toList();
 
     return Column(
       children: [
@@ -48,13 +44,16 @@ class DashboardScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.lg),
               _SectionLabel('UPCOMING TASKS'),
               const SizedBox(height: AppSpacing.sm),
-              for (final t in _upcomingTasks)
-                TaskCard(
-                  title: t['title'] as String,
-                  subject: t['subject'] as String,
-                  dueDate: t['due'] as String,
-                  completed: t['completed'] as bool,
-                ),
+              if (tasks.isEmpty)
+                const _EmptyNote('No upcoming tasks.')
+              else
+                for (final t in tasks)
+                  TaskCard(
+                    title: t.title,
+                    subject: t.subject,
+                    dueDate: PlannerStore.formatDue(t.due),
+                    completed: t.completed,
+                  ),
             ],
           ),
         ),

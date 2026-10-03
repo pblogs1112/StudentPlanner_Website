@@ -4,11 +4,18 @@ import 'theme/app_theme.dart';
 import 'screens/root_screen.dart';
 import 'state/planner_store.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Load saved classes, tasks and notes before the first frame, so the app
+  // never flashes the sample data first.
+  final store = PlannerStore();
+  await store.load();
+
   runApp(
     DevicePreview(
       enabled: true,
-      builder: (context) => const StudentPlannerApp(),
+      builder: (context) => StudentPlannerApp(store: store),
     ),
   );
 }

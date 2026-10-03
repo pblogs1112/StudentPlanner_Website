@@ -21,8 +21,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
     'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
   ];
 
-  DateTime _visibleMonth = DateTime(2026, 7);
-  DateTime _selectedDate = DateTime(2026, 7, 2);
+  // Starts on the real current date, so the Calendar opens on today.
+  late DateTime _visibleMonth;
+  late DateTime _selectedDate;
+  late final DateTime _today;
+
+  @override
+  void initState() {
+    super.initState();
+    _today = _dateOnly(DateTime.now());
+    _selectedDate = _today;
+    _visibleMonth = DateTime(_today.year, _today.month);
+  }
 
   DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
 
@@ -107,6 +117,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             days[week * 7 + d].month == _visibleMonth.month,
                         isSelected: _dateOnly(days[week * 7 + d]) ==
                             _dateOnly(_selectedDate),
+                        isToday: _dateOnly(days[week * 7 + d]) == _today,
                         eventCount: store.tasksOn(days[week * 7 + d]).length,
                         onTap: () =>
                             setState(() => _selectedDate = days[week * 7 + d]),
@@ -170,6 +181,7 @@ class _DayCell extends StatelessWidget {
   final DateTime date;
   final bool inCurrentMonth;
   final bool isSelected;
+  final bool isToday;
   final int eventCount;
   final VoidCallback onTap;
 
@@ -177,6 +189,7 @@ class _DayCell extends StatelessWidget {
     required this.date,
     required this.inCurrentMonth,
     required this.isSelected,
+    required this.isToday,
     required this.eventCount,
     required this.onTap,
   });
@@ -201,6 +214,10 @@ class _DayCell extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: isSelected ? theme.colorScheme.primary : null,
+                  // Ring marks today when another day is selected.
+                  border: isToday && !isSelected
+                      ? Border.all(color: theme.colorScheme.primary, width: 1.5)
+                      : null,
                 ),
                 child: Text(
                   '${date.day}',
