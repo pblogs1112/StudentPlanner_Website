@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../state/planner_store.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_header.dart';
 import '../widgets/class_card.dart';
@@ -12,7 +13,7 @@ class ClassScheduleScreen extends StatefulWidget {
 }
 
 class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
-  static const _days = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+  static const _days = PlannerStore.days;
   static const _fullDayNames = {
     'Mon': 'Monday',
     'Tues': 'Tuesday',
@@ -44,77 +45,10 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
     });
   }
 
-  // Mutable so Add/Edit/Delete can update it in place.
-  final Map<String, List<Map<String, String>>> _classesByDay = {
-    'Mon': [
-      {
-        'subject': 'Discrete Mathematics',
-        'time': '9:00 AM - 10:30 AM',
-        'room': 'SJH 406',
-      },
-      {
-        'subject': 'Web Development',
-        'time': '10:35 AM - 12:00 PM',
-        'room': 'SJH 703',
-      },
-      {
-        'subject': 'Computer Networking',
-        'time': '1:00 PM - 2:30 PM',
-        'room': 'SJH 301',
-      },
-    ],
-    'Tues': [
-      {
-        'subject': 'Database Management',
-        'time': '9:00 AM - 10:30 AM',
-        'room': 'SJH 210',
-      },
-      {
-        'subject': 'Software Engineering',
-        'time': '1:00 PM - 2:30 PM',
-        'room': 'SJH 110',
-      },
-    ],
-    'Wed': [
-      {
-        'subject': 'Discrete Mathematics',
-        'time': '9:00 AM - 10:30 AM',
-        'room': 'SJH 406',
-      },
-      {
-        'subject': 'Web Development',
-        'time': '10:35 AM - 12:00 PM',
-        'room': 'SJH 703',
-      },
-    ],
-    'Thurs': [
-      {
-        'subject': 'Database Management',
-        'time': '9:00 AM - 10:30 AM',
-        'room': 'SJH 210',
-      },
-      {
-        'subject': 'Computer Networking',
-        'time': '1:00 PM - 2:30 PM',
-        'room': 'SJH 301',
-      },
-    ],
-    'Fri': [
-      {
-        'subject': 'Discrete Mathematics',
-        'time': '9:00 AM - 10:30 AM',
-        'room': 'SJH 406',
-      },
-      {
-        'subject': 'Software Engineering',
-        'time': '1:00 PM - 2:30 PM',
-        'room': 'SJH 110',
-      },
-    ],
-    'Sat': [],
-  };
-
+  // Add/Edit/Delete go through the shared store, so the Dashboard (and any
+  // other screen) updates at the same moment.
   Future<void> _addClass() async {
+    final store = PlannerScope.read(context);
     final result = await showDialog<Map<String, String>>(
       context: context,
       builder: (_) => ClassFormDialog(
@@ -126,47 +60,50 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
     if (result == null) return;
     final day = result['day']!;
 
-    setState(() {
-      _classesByDay.putIfAbsent(day, () => []).add({
-        'subject': result['subject']!,
-        'time': result['time']!,
-        'room': result['room']!,
-      });
-    });
+    store.addClass(
+      day,
+      ClassItem(
+        subject: result['subject']!,
+        time: result['time']!,
+        room: result['room']!,
+      ),
+    );
     _selectDay(day); // jump to the day the class was added to
   }
 
-  Future<void> _editClass(int index) async {
-    final existing = _classesByDay[_selectedDay]![index];
+  Future<void> _editClass(ClassItem existing) async {
+    final store = PlannerScope.read(context);
+    final oldDay = _selectedDay;
     final result = await showDialog<Map<String, String>>(
       context: context,
       builder: (_) => ClassFormDialog(
         title: 'Edit Class',
         days: _days,
-        initialDay: _selectedDay,
-        initialSubject: existing['subject']!,
-        initialTime: existing['time']!,
-        initialRoom: existing['room']!,
+        initialDay: oldDay,
+        initialSubject: existing.subject,
+        initialTime: existing.time,
+        initialRoom: existing.room,
       ),
     );
     if (result == null) return;
     final day = result['day']!;
 
-    setState(() {
-      _classesByDay[_selectedDay]!.removeAt(index);
-      _classesByDay.putIfAbsent(day, () => []).add({
-        'subject': result['subject']!,
-        'time': result['time']!,
-        'room': result['room']!,
-      });
-    });
+    store.updateClass(
+      oldDay,
+      existing,
+      day,
+      ClassItem(
+        subject: result['subject']!,
+        time: result['time']!,
+        room: result['room']!,
+      ),
+    );
     _selectDay(day);
   }
 
-  void _deleteClass(int index) {
-    setState(() => _classesByDay[_selectedDay]!.removeAt(index));
+  void _deleteClass(ClassItem item) {
+    PlannerScope.read(context).deleteClass(_selectedDay, item);
   }
-
 
   void _shiftDay(int delta) {
     final index = _days.indexOf(_selectedDay);
@@ -177,7 +114,7 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final classes = _classesByDay[_selectedDay] ?? [];
+    final classes = PlannerScope.of(context).classesFor(_selectedDay);
 
     return Column(
       children: [
@@ -270,12 +207,12 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
                   itemBuilder: (context, i) {
                     final c = classes[i];
                     return ClassCard(
-                      subject: c['subject']!,
+                      subject: c.subject,
                       day: _selectedDay,
-                      time: c['time']!,
-                      room: c['room']!,
-                      onEdit: () => _editClass(i),
-                      onDelete: () => _deleteClass(i),
+                      time: c.time,
+                      room: c.room,
+                      onEdit: () => _editClass(c),
+                      onDelete: () => _deleteClass(c),
                     );
                   },
                 ),

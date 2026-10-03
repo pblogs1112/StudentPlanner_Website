@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../state/planner_store.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_header.dart';
 
@@ -8,13 +9,6 @@ class CalendarScreen extends StatefulWidget {
 
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
-}
-
-class _CalendarEvent {
-  final String title;
-  final String subject;
-  final bool completed;
-  const _CalendarEvent(this.title, this.subject, this.completed);
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
@@ -30,26 +24,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _visibleMonth = DateTime(2026, 7);
   DateTime _selectedDate = DateTime(2026, 7, 2);
 
-  final Map<DateTime, List<_CalendarEvent>> _eventsByDate = {
-    DateTime(2026, 7, 2): const [
-      _CalendarEvent('HTML Accessibility Quiz', 'Web Development', true),
-    ],
-    DateTime(2026, 7, 13): const [
-      _CalendarEvent('Discrete Math Problem Set 4', 'Discrete Mathematics', false),
-    ],
-    DateTime(2026, 7, 29): const [
-      _CalendarEvent('Packet Tracer Lab 3', 'Computer Networking', false),
-      _CalendarEvent('SQL Normalization Quiz', 'Database Management', false),
-    ],
-    DateTime(2026, 7, 30): const [
-      _CalendarEvent('Sprint Review', 'Software Engineering', false),
-    ],
-  };
-
   DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
-
-  List<_CalendarEvent> _eventsFor(DateTime day) =>
-      _eventsByDate[_dateOnly(day)] ?? const [];
 
   void _changeMonth(int delta) {
     setState(() {
@@ -67,7 +42,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final days = _gridDays();
-    final events = _eventsFor(_selectedDate);
+    final store = PlannerScope.of(context);
+    final events = store.tasksOn(_selectedDate);
 
     return Column(
       children: [
@@ -131,7 +107,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             days[week * 7 + d].month == _visibleMonth.month,
                         isSelected: _dateOnly(days[week * 7 + d]) ==
                             _dateOnly(_selectedDate),
-                        eventCount: _eventsFor(days[week * 7 + d]).length,
+                        eventCount: store.tasksOn(days[week * 7 + d]).length,
                         onTap: () =>
                             setState(() => _selectedDate = days[week * 7 + d]),
                       ),
@@ -265,7 +241,7 @@ class _DayCell extends StatelessWidget {
 }
 
 class _EventCard extends StatelessWidget {
-  final _CalendarEvent event;
+  final PlannerTask event;
   const _EventCard({required this.event});
 
   @override
