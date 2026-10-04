@@ -40,7 +40,7 @@ At least six entries. One per real use. Every entry needs a commit link.
 - **What I asked for:Real Task and Notes screens, so changes to tasks show up on the Calendar and the Dashboard the same way Today's Classes follows the Class Schedule, and Upcoming Tasks is no longer hardcoded.**
 - **What it gave back:Task and Notes screens with add, edit and delete, note and task form dialogs, and the Dashboard changed to show upcoming tasks from the PlannerStore.**
 - **What I kept, what I changed, and why:I kept most of the generated code, but made small changes to the task data and screen layout so they match my app design and the tasks update correctly across the Dashboard and Calendar.**
-- **Commit:** https://github.com/YOUR-USERNAME/YOUR-REPO/commit/SHA
+- **Commit:** https://github.com/pblogs1112/StudentPlanner_Website/commit/8fb26a6bb0ae2bc983f92c8ee7a5b2bb1a526143
 
 ### 2026-10-03 - Saving data with shared_preferences
 
