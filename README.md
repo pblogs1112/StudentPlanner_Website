@@ -6,7 +6,7 @@
   New here? Read START-HERE.md first. Delete this comment when you are done.
 -->
 
-# App Name
+# Student Planner
 
 > A student planner that brings class schedules, tasks, deadlines, calendar events, and notes together in one place, helping students stay organized, remember important schoolwork, and avoid missing deadlines.
 
