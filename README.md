@@ -39,18 +39,20 @@ A repo without screenshots reads as abandoned, whatever the code says.
 
 Three to five bullets. What can a user actually do?
 
-- ...
-- ...
-- ...
+- View today's classes and the current class schedule.
+- Add, edit, and delete classes, tasks, and notes.
+- View and manage tasks through the Calendar and Dashboard.
+- Search and manage notes.
+- Save classes, tasks, and notes locally so they remain after restarting the app.
 
 ## Built with
 
 | | |
 | --- | --- |
 | Framework | Flutter (Dart) |
-| State | `setState` / provider / riverpod (say which) |
-| Storage | shared_preferences / Hive / Drift / Firebase / Supabase / other |
-| Other packages | list the ones that matter, with a word on why |
+| State | `setState` for local UI state + `PlannerStore` (`ChangeNotifier`) for shared app state|
+| Storage | shared_preferences |
+| Other packages | `google_fonts` for the Poppins font; `device_preview` for testing the phone layout in Chrome |
 
 ## Running it yourself
 
@@ -60,28 +62,18 @@ flutter run -d chrome --web-port 8080
 ```
 
 Then open http://localhost:8080. Requires Flutter (run `flutter --version` and
-put yours here).
+Flutter 3.44.8).
 
 ### Environment variables
 
-This project reads its configuration from a `.env` file that is **not** in the
-repository. Copy `.env.example`, fill in your own values, and never commit the
-result.
-
-| Variable | What it is | Where to get one |
-| --- | --- | --- |
-| `EXAMPLE_API_KEY` | ... | ... |
+This project does not use environment variables, API keys, or external backend services.
+The app uses shared_preferences for local storage.
 
 ## Privacy and secrets
 
 Required section. Two or three honest sentences:
 
-- What personal data this app stores, if any, and where it goes.
-- Where the secrets live (`.env` locally, repository secrets in the deploy
-  workflow) and what protects the data on the service side (Firestore rules,
-  Supabase RLS, or "nothing leaves the device").
-- Confirm that all sample data, screenshots and the video contain **no real
-  personal information**.
+The app stores classes, tasks, and notes locally on the user's device using `shared_preferences`, and this data does not leave the device or get sent to an external service. The project does not use API keys, `.env` files, or other secrets. All sample data, screenshots, and the demo video contain no real personal information.
 
 ## Project documentation
 
@@ -97,9 +89,8 @@ Required section. Two or three honest sentences:
 
 ## Status and what is next
 
-Be honest. What works, what is half done, what you would build next. An honest
-"known issues" section reads better than a claim the reader disproves in thirty
-seconds.
+The main features of the Student Planner are working, including the Dashboard, Class Schedule, Calendar, Tasks, Notes, shared app state, and local data persistence.
+Future improvements I plan to implement include notifications for upcoming classes and tasks, better offline access, a dark mode, and search and filter features to make the planner easier to use.
 
 ## Credits
 
