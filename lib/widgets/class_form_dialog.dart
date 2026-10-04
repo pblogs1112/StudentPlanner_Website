@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// lib/widgets/class_form_dialog.dart
-/// Modal used by the Class Schedule screen to add or edit a class.
-/// Returns a {day, subject, time, room} map via Navigator.pop when
-/// saved, or null if the user cancels.
 class ClassFormDialog extends StatefulWidget {
   final String title;
   final List<String> days;

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
-/// lib/widgets/app_header.dart
-/// Shown at the top of all five screens. On the Dashboard, [subtitle]
-/// carries the app tagline; other screens can omit it.
 class AppHeader extends StatelessWidget {
   final String title;
   final String? subtitle;

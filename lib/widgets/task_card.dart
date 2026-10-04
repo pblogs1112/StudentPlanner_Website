@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
-/// lib/widgets/task_card.dart
-/// Appears on Dashboard (onChanged null -> badge only, read-only) and
-/// Task screen (onChanged set -> shows a checkbox the user can toggle).
 class TaskCard extends StatelessWidget {
   final String title;
   final String subject;

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// lib/widgets/bottom_nav_bar.dart
-/// Order matches the Screens list: Dashboard, Class Schedule, Calendar,
-/// Task, Notes.
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;

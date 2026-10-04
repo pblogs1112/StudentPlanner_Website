@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
-/// lib/widgets/class_card.dart
-/// Appears on Dashboard (compact, no edit/delete) and Class Schedule
-/// (full, with edit/delete). Passing null for onEdit/onDelete hides
-/// the corresponding action.
 class ClassCard extends StatelessWidget {
   final String subject;
   final String day;
