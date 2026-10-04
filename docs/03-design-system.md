@@ -9,8 +9,7 @@ that *shows* your palette, type scale, spacing and components, put it in
 `assets/`, and link it here:
 
 ```markdown
-![Design system](assets/design-system.png)
-[Design system (PDF)](assets/design-system.pdf)
+[Design system (PDF)](docs/assets/Design System.pdf)
 ```
 
 Figma, Canva, Excalidraw, Google Slides or Docs exported to PDF all work. A
