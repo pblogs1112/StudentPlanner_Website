@@ -106,13 +106,13 @@ it in your own words.
 - **Commit:https://github.com/pblogs1112/StudentPlanner_Website/commit/84aec8a**
 - **What it does and why it is built this way:RootScreen is the main navigation screen of the app. It uses a StatefulWidget to track the selected tab and an IndexedStack to keep all five screens alive when switching tabs. Tapping a navigation item updates the selected index and displays the correct screen. This keeps navigation centralized while shared app data remains in the PlannerStore.**
 
--**File: lib/screens/notes_screen.dart**
--**Commit: https://github.com/pblogs1112/StudentPlanner_Website/commit/84aec8a**
--**What it does and why it is built this way: NotesScreen manages the Notes page by letting users search, add, edit, and delete notes through the shared PlannerStore. It uses dialogs for adding and editing notes, filters notes based on the search query, and displays them using NoteCard. It is a StatefulWidget because the search query changes the displayed notes, while the actual note data is kept in the PlannerStore so it can be shared and saved across the app.**
+- **File: lib/screens/notes_screen.dart**
+- **Commit: https://github.com/pblogs1112/StudentPlanner_Website/commit/84aec8a**
+- **What it does and why it is built this way: NotesScreen manages the Notes page by letting users search, add, edit, and delete notes through the shared PlannerStore. It uses dialogs for adding and editing notes, filters notes based on the search query, and displays them using NoteCard. It is a StatefulWidget because the search query changes the displayed notes, while the actual note data is kept in the PlannerStore so it can be shared and saved across the app.**
 
--**File: lib/widgets/note_form_dialog.dart**
--**Commit:https://github.com/pblogs1112/StudentPlanner_Website/commit/84aec8ada124aa595bc0f2edb9d10fbfcfe79b86**
--**What it does and why it is built this way:NoteFormDialog provides a reusable form for adding and editing notes. It includes fields for the title, subject, and note content, with validation to make sure required fields are filled in. It uses controllers to manage the form values and returns the entered data to NotesScreen when saved. It is a StatefulWidget because the selected subject changes while the form is being used.**
+- **File: lib/widgets/note_form_dialog.dart**
+- **Commit:https://github.com/pblogs1112/StudentPlanner_Website/commit/84aec8ada124aa595bc0f2edb9d10fbfcfe79b86**
+- **What it does and why it is built this way:NoteFormDialog provides a reusable form for adding and editing notes. It includes fields for the title, subject, and note content, with validation to make sure required fields are filled in. It uses controllers to manage the form values and returns the entered data to NotesScreen when saved. It is a StatefulWidget because the selected subject changes while the form is being used.**
 
 ### The AI-written part I understand best
 
