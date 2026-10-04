@@ -116,7 +116,11 @@ accurately costs you nothing.
 This section is the last 10 points of the finals badge, and it wants three
 things:
 
-![Built with AI assistance](https://img.shields.io/badge/built%20with-AI%20assistance-0b5fff)
+[![Made with AI](https://img.shields.io/badge/Made_with-AI_assistance-blue)](AI-USAGE.md)
+
+**AI assistance:** Claude was used extensively to help with implementation, debugging, and improving parts of the Student Planner app.
+
+See [AI-USAGE.md](AI-USAGE.md) for the complete AI usage log and details of what was kept or changed.
 
 - the badge above, or one you like better
 - a line naming which assistant you used and how much of the work it touched
