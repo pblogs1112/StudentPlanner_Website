@@ -8,7 +8,7 @@
 
 # App Name
 
-> One sentence: what this app does, and who it is for.
+> A student planner that brings class schedules, tasks, deadlines, calendar events, and notes together in one place, helping students stay organized, remember important schoolwork, and avoid missing deadlines.
 
 **Live demo:** https:https://pblogs1112.github.io/StudentPlanner_Website/ <!-- GitHub Pages is set up already; replace if you host elsewhere -->
 **Demo video:** `docs/demo.mp4` (link it here once it exists)
@@ -30,7 +30,7 @@ this paragraph with them:
 ```markdown
 | Home | Detail | Add |
 | --- | --- | --- |
-| ![Home](docs/assets/screen-home.png) | ![Detail](docs/assets/screen-detail.png) | ![Add](docs/assets/screen-add.png) |
+| ![Dashboard](docs/assets/dashboard_screen.png) | ![Class Schedule](docs/assets/classschedule_screen.png) | ![Calendar](docs/assets/calendar_screen.png |
 ```
 
 A repo without screenshots reads as abandoned, whatever the code says.
