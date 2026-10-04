@@ -9,8 +9,10 @@
 A short list, in order, so a viewer can skip to what they need:
 
 - 0:00 what the app is and who it is for
-- 0:20 ...
-- 1:10 ...
+- 0:20 main user journey
+- 1:10 calendar and class schedule
+- 2:00 tasks and other features
+- 3:00 features I am most proud of
 
 Cover, in this order: the main user journey end to end, anything that only works
 on a real device (camera, GPS, sensors), and the thing you are proudest of.
@@ -36,3 +38,6 @@ it.
 - Notifications off.
 - Sensible sample data, not "asdf".
 - One unbroken take per feature. Say what you are doing while you do it.
+
+## Demo video link
+- https://drive.google.com/drive/folders/1xz7Ksiv-zTAsq128kSkB-3Nq4Cf0uPuG?usp=drive_link
