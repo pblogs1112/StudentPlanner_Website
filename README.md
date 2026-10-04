@@ -109,10 +109,6 @@ seconds.
 
 ## AI use
 
-If you used AI while building this, say so here. Honest disclosure is the
-standard in this course and increasingly outside it, and reporting heavy use
-accurately costs you nothing.
-
 This section is the last 10 points of the finals badge, and it wants three
 things:
 
@@ -121,13 +117,6 @@ things:
 **AI assistance:** Claude was used extensively to help with implementation, debugging, and improving parts of the Student Planner app.
 
 See [AI-USAGE.md](AI-USAGE.md) for the complete AI usage log and details of what was kept or changed.
-
-- the badge above, or one you like better
-- a line naming which assistant you used and how much of the work it touched
-- a link to [AI-USAGE.md](AI-USAGE.md), where the full account lives
-
-Keep the detail in `AI-USAGE.md` rather than here. This section is the summary a
-visitor reads; that file is the record the badge is graded from.
 
 ## Licence
 
