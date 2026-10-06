@@ -58,10 +58,10 @@ Three to five bullets. What can a user actually do?
 
 ```bash
 flutter pub get
-flutter run -d chrome --web-port 8080
+flutter run -d chrome --web-port 5050
 ```
 
-Then open http://localhost:8080. Requires Flutter (run `flutter --version` and
+Then open http://localhost:5050. Requires Flutter (run `flutter --version` and
 Flutter 3.44.8).
 
 ### Environment variables
