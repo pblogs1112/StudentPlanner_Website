@@ -14,9 +14,9 @@ helping students stay organized, remember important schoolwork, and avoid missin
 
 ## How to run it
 
-- flutter pub get
-- flutter run -d chrome
-- flutter run -d web-server --web-port 5050
+flutter pub get
+flutter run -d chrome
+
 
 ## Presentation
 
