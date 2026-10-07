@@ -5,6 +5,7 @@ Copy this into your workspace `project/README.md` and fill it in.
 ## My project repository
 
 Public repository: https://github.com/pblogs1112/StudentPlanner_Website
+
 Live app (if deployed): https://pblogs1112.github.io/StudentPlanner_Website/
 
 ## What it is
@@ -15,6 +16,7 @@ helping students stay organized, remember important schoolwork, and avoid missin
 ## How to run it
 
 flutter pub get
+
 flutter run -d chrome
 
 
