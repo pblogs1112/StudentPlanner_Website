@@ -4,9 +4,8 @@ Copy this into your workspace `project/README.md` and fill it in.
 
 ## My project repository
 
-Public repository: https://pblogs1112.github.io/StudentPlanner_Website/
-
-Live app (if deployed): https://...
+Public repository: https://github.com/pblogs1112/StudentPlanner_Website
+Live app (if deployed): https://pblogs1112.github.io/StudentPlanner_Website/
 
 ## What it is
 
