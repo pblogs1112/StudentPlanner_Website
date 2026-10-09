@@ -1,16 +1,8 @@
-<!--
-  This is your project's front page. Replace every placeholder below.
-  It is the first thing your instructor and any future employer will read, and
-  the live link in it is how your project gets opened for grading.
-
-  New here? Read START-HERE.md first. Delete this comment when you are done.
--->
-
 # Student Planner
 
 > A student planner that brings class schedules, tasks, deadlines, calendar events, and notes together in one place, helping students stay organized, remember important schoolwork, and avoid missing deadlines.
 
-**Live demo:** https:https://pblogs1112.github.io/StudentPlanner_Website/ 
+**Live demo:** https://pblogs1112.github.io/StudentPlanner_Website/
 **Demo video:** https://drive.google.com/drive/folders/1xz7Ksiv-zTAsq128kSkB-3Nq4Cf0uPuG?usp=drive_link (link it here once it exists)
 **Course:** Applications Development and Emerging Technologies (6ADET), Holy Angel University
 **Author:** Philbert Logatoc
@@ -22,9 +14,9 @@
 
 
 ```markdown
-| Home | Detail | Add |
+| Dashboard | Class Schedule | Calendar |
 | --- | --- | --- |
-| ![Dashboard](docs/assets/dashboard_screen.png) | ![Class Schedule](docs/assets/classschedule_screen.png) | ![Calendar](docs/assets/calendar_screen.png |
+| ![Dashboard](docs/assets/dashboard_screen.png) | ![Class Schedule](docs/assets/classschedule_screen.png) | ![Calendar](docs/assets/calendar_screen.png) |
 ```
 
 ## What it does
@@ -48,13 +40,39 @@ Three to five bullets. What can a user actually do?
 
 ## Running it yourself
 
+1. **Check your Flutter install.**
 ```bash
-flutter pub get
-flutter run -d chrome --web-port 5050
+   flutter doctor
+```
+   You should see a check mark next to Flutter and Chrome. Fix anything marked with an X before you continue.
+
+2. **Clone the repository.**
+```bash
+   git clone https://github.com/pblogs1112/StudentPlanner_Website.git
 ```
 
-Then open http://localhost:5050. Requires Flutter (run `flutter --version` and
-Flutter 3.44.8).
+3. **Go into the project folder.**
+```bash
+   cd StudentPlanner_Website
+```
+
+4. **Install the dependencies.**
+```bash
+   flutter pub get
+```
+   This should finish with "Got dependencies!" and no errors.
+
+5. **Run the app in Chrome.**
+```bash
+   flutter run -d chrome --web-port 5050
+```
+   The first build can take a minute or two.
+
+Chrome opens the app at http://localhost:5050 inside a phone-shaped frame (from `device_preview`). The first screen is the **Dashboard**, showing Today's Classes and Upcoming Tasks. If you see this, the setup worked.
+
+Built with Flutter 3.44.8 (stable) and Dart 3.12.2. Run `flutter --version` to check yours.
+
+**Windows build error mentioning `objective_c` or native assets?** This can happen when your Windows username contains a space. Run `flutter config --no-enable-native-assets`, then repeat steps 4 and 5.
 
 ### Environment variables
 
