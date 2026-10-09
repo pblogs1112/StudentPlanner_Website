@@ -94,7 +94,6 @@ The app stores classes, tasks, and notes locally on the user's device using `sha
 | [Design system](docs/03-design-system.md) | colors, type, spacing, components |
 | [Weekly reports](docs/04-weekly-reports.md) | what happened each week |
 | [Demo video](docs/05-demo-video.md) | the recording and what it shows |
-| [Start here](START-HERE.md) | how this repo works (delete once you have read it) |
 | [Security and privacy](docs/06-security-and-privacy.md) | the checklist, filled in |
 
 ## Status and what is next
