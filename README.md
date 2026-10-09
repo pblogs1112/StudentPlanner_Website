@@ -10,30 +10,22 @@
 
 > A student planner that brings class schedules, tasks, deadlines, calendar events, and notes together in one place, helping students stay organized, remember important schoolwork, and avoid missing deadlines.
 
-**Live demo:** https:https://pblogs1112.github.io/StudentPlanner_Website/ <!-- GitHub Pages is set up already; replace if you host elsewhere -->
+**Live demo:** https:https://pblogs1112.github.io/StudentPlanner_Website/ 
 **Demo video:** https://drive.google.com/drive/folders/1xz7Ksiv-zTAsq128kSkB-3Nq4Cf0uPuG?usp=drive_link (link it here once it exists)
 **Course:** Applications Development and Emerging Technologies (6ADET), Holy Angel University
 **Author:** Philbert Logatoc
 
-This repository lives in the author's own GitHub account and is public on
-purpose. There is no `student.json` here and there should not be one: see
-`docs/06-security-and-privacy.md` for what a public repo means for secrets and
-personal data.
 
 ---
 
 ## Screenshots
 
-Put two or three real screenshots at phone size in `docs/assets/`, then replace
-this paragraph with them:
 
 ```markdown
 | Home | Detail | Add |
 | --- | --- | --- |
 | ![Dashboard](docs/assets/dashboard_screen.png) | ![Class Schedule](docs/assets/classschedule_screen.png) | ![Calendar](docs/assets/calendar_screen.png |
 ```
-
-A repo without screenshots reads as abandoned, whatever the code says.
 
 ## What it does
 
