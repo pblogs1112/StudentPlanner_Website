@@ -3,7 +3,7 @@
 > A student planner that brings class schedules, tasks, deadlines, calendar events, and notes together in one place, helping students stay organized, remember important schoolwork, and avoid missing deadlines.
 
 **Live demo:** https://pblogs1112.github.io/StudentPlanner_Website/
-**Demo video:** https://drive.google.com/drive/folders/1xz7Ksiv-zTAsq128kSkB-3Nq4Cf0uPuG?usp=drive_link (link it here once it exists)
+**Demo video:** https://drive.google.com/drive/folders/1xz7Ksiv-zTAsq128kSkB-3Nq4Cf0uPuG?usp=drive_link
 **Course:** Applications Development and Emerging Technologies (6ADET), Holy Angel University
 **Author:** Philbert Logatoc
 
